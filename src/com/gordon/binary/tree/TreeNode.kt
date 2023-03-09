@@ -1,14 +1,6 @@
-package com.gordon.binary.tree;
+package com.gordon.binary.tree
 
-public class TreeNode {
-
-    public int value;
-    public TreeNode left;
-    public TreeNode right;
-
-    public TreeNode(int value, TreeNode left, TreeNode right) {
-        this.value = value;
-        this.left = left;
-        this.right = right;
-    }
+class TreeNode(var `val`: Int) {
+    var left: TreeNode? = null
+    var right: TreeNode? = null
 }

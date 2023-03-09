@@ -1,27 +1,58 @@
-package com.gordon.binary.tree;
+package com.gordon.binary.tree
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*
 
-public class BinaryTreeDemo {
-
-    public List<Integer> postTree(TreeNode root) {
-        List<Integer> ans = new ArrayList<>();
-        LinkedList<TreeNode> stack = new LinkedList<>();
-        stack.push(root);
-        while (!stack.isEmpty()){
-            TreeNode node = stack.pop();
-            ans.add(node.value);
+class BinaryTreeDemo {
+    fun postTree(root: TreeNode): List<Int?> {
+        val ans: MutableList<Int?> = ArrayList()
+        val stack = LinkedList<TreeNode>()
+        stack.push(root)
+        while (!stack.isEmpty()) {
+            val node = stack.pop()
+            ans.add(node.`val`)
             if (node.left != null) {
-                stack.push(node.left);
+                stack.push(node.left)
             }
             if (node.right != null) {
-                stack.push(node.right);
+                stack.push(node.right)
             }
         }
-        Collections.reverse(ans);
-        return ans;
+        ans.reverse()
+        return ans
+    }
+
+    /**
+     * 二叉树的所有路径
+     * 从根节点到叶子节点的路径 1->3->5
+     */
+   fun binaryTreePaths(root: TreeNode?): List<String>{
+       val path = LinkedList<Int>()
+       val ans = mutableListOf<String>()
+       if (root == null) {
+           return ans
+       }
+       traverse(root, path, ans)
+       return ans;
+   }
+    private fun traverse(root:TreeNode,path:LinkedList<Int>,ans:MutableList<String>){
+        path.add(root.`val`)
+        if(root.left==null&&root.right==null){
+            val sb = StringBuilder()
+            for(i in 0 until path.size-1){
+                sb.append(path[i])
+                sb.append("->")
+            }
+            sb.append(path[path.size-1])
+            ans.add(sb.toString())
+            return
+        }
+        if(root.left!=null){
+            traverse(root.left!!,path,ans)
+            path.removeLast()
+        }
+        if (root.right != null) {
+            traverse(root.right!!,path, ans)
+            path.removeLast()
+        }
     }
 }
