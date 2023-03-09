@@ -1,6 +1,7 @@
 package com.gordon.binary.tree
 
 import java.util.*
+import kotlin.math.max
 
 class BinaryTreeDemo {
     fun postTree(root: TreeNode): List<Int?> {
@@ -68,5 +69,31 @@ class BinaryTreeDemo {
             return false
         }
         return compare(left.left, right.right) && compare(left.right, right.left)
+    }
+
+    fun maxDepth(root: TreeNode?): Int {
+        if (root == null) {
+            return 0
+        }
+        val left = maxDepth(root.left)
+        val right = maxDepth(root.right)
+        return maxOf(left, right) + 1
+    }
+
+    fun minDepth(root: TreeNode?): Int {
+        return getTreeHeight(root)
+    }
+
+    private fun getTreeHeight(root: TreeNode?): Int {
+        if (root == null) {
+            return 0
+        }
+        if (root.left == null && root.right != null) {
+            return 1 + getTreeHeight(root.right)
+        }
+        if (root.left != null && root.right == null) {
+            return 1 + getTreeHeight(root.left)
+        }
+        return 1 + minOf(getTreeHeight(root.left), getTreeHeight(root.right))
     }
 }
