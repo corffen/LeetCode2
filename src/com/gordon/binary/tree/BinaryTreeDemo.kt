@@ -96,4 +96,43 @@ class BinaryTreeDemo {
         }
         return 1 + minOf(getTreeHeight(root.left), getTreeHeight(root.right))
     }
+
+    fun sumOfLeftLeaves(root: TreeNode?): Int {
+
+        if (root == null) {
+            return 0
+        }
+        if (root.left == null && root.right == null) {
+            return 0
+        }
+        var left = sumOfLeftLeaves(root.left)
+        if (root.left != null && root.left!!.left == null && root.left!!.right == null) {
+            left = root.left!!.`val`
+        }
+        val right = sumOfLeftLeaves(root.right)
+        return left + right
+    }
+
+    fun buildTree(inorder: IntArray, postOrder: IntArray): TreeNode? {
+        val map = hashMapOf<Int, Int>()
+        inorder.forEachIndexed { index, item ->
+            map[item] = index
+        }
+        return buildTree(inorder, 0, inorder.size, postOrder, 0, postOrder.size, map)
+    }
+
+    private fun buildTree(
+        inorder: IntArray, inBegin: Int, inEnd: Int, postOrder: IntArray,
+        postBegin: Int, postEnd: Int, map: Map<Int, Int>
+    ): TreeNode? {
+        if (inBegin >= inEnd || postBegin >= postEnd) {
+            return null
+        }
+        val index = map[postOrder[postEnd - 1]]
+        val root = TreeNode(inorder[index!!])
+        val leftOfLen = index - inBegin
+        root.left = buildTree(inorder, inBegin, index, postOrder, postBegin, postBegin + leftOfLen, map)
+        root.right = buildTree(inorder, index + 1, inEnd, postOrder, postBegin + leftOfLen, postEnd - 1, map)
+        return root
+    }
 }
