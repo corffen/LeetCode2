@@ -135,4 +135,12 @@ class BinaryTreeDemo {
         root.right = buildTree(inorder, index + 1, inEnd, postOrder, postBegin + leftOfLen, postEnd - 1, map)
         return root
     }
+    fun searchBST(root: TreeNode?, `val`: Int): TreeNode? {
+        if(root == null|| root.`val` ==`val`) return root
+        return if(root.left!!.`val`<`val`){
+            searchBST(root.right,`val`)
+        }else{
+            searchBST(root.left,`val`)
+        }
+    }
 }
